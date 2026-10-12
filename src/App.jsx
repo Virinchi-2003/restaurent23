@@ -54,6 +54,30 @@ export default function App() {
     loadTursoData();
   }, []);
 
+  // Scroll Entrance Animations Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    const targets = document.querySelectorAll(
+      '.promise-card, .process-step-card, .menu-card, .story-banner, .review-card, .section-header-centered, .newsletter-card'
+    );
+    targets.forEach((el) => {
+      el.classList.add('reveal-on-scroll');
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [menuItems, reviews]);
+
   const showToast = (msg) => {
     setToastMessage(msg);
     setTimeout(() => {

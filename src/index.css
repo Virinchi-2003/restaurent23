@@ -137,6 +137,19 @@ a {
   position: relative;
 }
 
+/* Modern Scroll Entrance Animations */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px) scale(0.98);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 /* Typography Utilities */
 .heading-display {
   font-family: var(--font-display);
@@ -414,55 +427,72 @@ a {
   display: flex;
   align-items: center;
   overflow: hidden;
-  background-color: #ffffff;
+  background-color: #08090d;
 }
 
 /* ==========================================================================
-   2.5D CHOPPING VEGGIES VIDEO BACKGROUND
+   2.5D CHEF HAND & PAN FLAMING VIDEO BACKGROUND (4K CULINARY CRAFT)
    ========================================================================== */
 .hero-video-bg-container {
   position: absolute;
-  inset: -40px;
+  inset: -50px;
   overflow: hidden;
   pointer-events: none;
   z-index: 1;
   perspective: 1200px;
   transform-style: preserve-3d;
-  will-change: transform;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, filter;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
 }
 
 .hero-video-perspective-wrapper {
   position: absolute;
-  inset: -5%;
-  width: 110%;
-  height: 110%;
+  inset: -6%;
+  width: 112%;
+  height: 112%;
   transform-style: preserve-3d;
-  animation: video2_5DFloat 16s ease-in-out infinite alternate;
+  animation: video2_5DFloat 14s ease-in-out infinite alternate;
 }
 
 @keyframes video2_5DFloat {
   0% {
-    transform: scale(1.02) translateZ(0) rotate(0deg);
+    transform: scale(1.03) translateZ(0) rotate(0deg);
   }
   50% {
-    transform: scale(1.06) translateZ(14px) rotate(0.4deg);
+    transform: scale(1.07) translateZ(18px) rotate(0.45deg);
   }
   100% {
-    transform: scale(1.03) translateZ(-8px) rotate(-0.3deg);
+    transform: scale(1.04) translateZ(-10px) rotate(-0.35deg);
   }
 }
 
 .hero-video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 36%;
-  opacity: 0.74;
-  filter: contrast(1.12) saturate(1.32) brightness(1.22);
+  object-position: center 38%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.85s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.85s ease;
+  filter: contrast(1.18) saturate(1.36) brightness(0.96);
   image-rendering: -webkit-optimize-contrast;
-  mask-image: radial-gradient(ellipse 90% 80% at 50% 46%, black 38%, rgba(0, 0, 0, 0.94) 65%, rgba(0, 0, 0, 0.38) 84%, transparent 98%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 46%, black 38%, rgba(0, 0, 0, 0.94) 65%, rgba(0, 0, 0, 0.38) 84%, transparent 98%);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.hero-video-bg.active-video {
+  opacity: 0.94;
+  visibility: visible;
+  z-index: 2;
+}
+
+.hero-video-bg.inactive-video {
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1;
 }
 
 .hero-video-gradient-overlay {
@@ -470,29 +500,94 @@ a {
   inset: 0;
   pointer-events: none;
   z-index: 2;
-  /* Seamless chromatic blend matching video: warm timber golden glow, fresh carrot amber, and soft culinary rose */
+  /* Cinematic Dark Gradient: High-contrast text scrim on left, warm wok flame highlight & dark framing vignette */
   background: 
-    radial-gradient(ellipse 75% 65% at 20% 36%, rgba(255, 237, 213, 0.35) 0%, rgba(254, 215, 170, 0.15) 45%, transparent 75%),
-    radial-gradient(ellipse 60% 50% at 80% 40%, rgba(255, 42, 95, 0.05) 0%, transparent 65%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.0) 30%, rgba(255, 255, 255, 0.58) 82%, #ffffff 100%);
+    linear-gradient(90deg, 
+      rgba(8, 9, 13, 0.90) 0%, 
+      rgba(8, 9, 13, 0.74) 34%, 
+      rgba(8, 9, 13, 0.28) 64%, 
+      rgba(8, 9, 13, 0.48) 100%
+    ),
+    radial-gradient(ellipse 70% 60% at 76% 50%, 
+      rgba(255, 95, 0, 0.16) 0%, 
+      rgba(234, 88, 12, 0.07) 42%, 
+      transparent 75%
+    ),
+    linear-gradient(180deg, 
+      rgba(8, 9, 13, 0.65) 0%, 
+      rgba(8, 9, 13, 0.05) 22%, 
+      rgba(8, 9, 13, 0.15) 65%, 
+      rgba(8, 9, 13, 0.85) 94%, 
+      #08090d 100%
+    );
 }
 
-/* Soft transition mixer ensuring zero hard cut-offs with next sections */
+/* 2.5D Floating Culinary Embers & Sparks Layer */
+.culinary-embers-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.culinary-ember {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, #fff7ed 0%, #ff7a00 60%, #ff2a5f 100%);
+  box-shadow: 0 0 10px 2px rgba(255, 122, 0, 0.7), 0 0 20px 4px rgba(255, 42, 95, 0.4);
+  opacity: 0.75;
+  will-change: transform, opacity;
+  animation: emberRise 7s infinite ease-in-out;
+}
+
+.ember-1 { width: 5px; height: 5px; left: 18%; bottom: 12%; animation-duration: 6.2s; animation-delay: 0s; }
+.ember-2 { width: 4px; height: 4px; left: 42%; bottom: 8%; animation-duration: 7.8s; animation-delay: 1.4s; }
+.ember-3 { width: 6px; height: 6px; left: 68%; bottom: 15%; animation-duration: 5.8s; animation-delay: 0.8s; }
+.ember-4 { width: 4px; height: 4px; left: 82%; bottom: 10%; animation-duration: 8.2s; animation-delay: 2.1s; }
+.ember-5 { width: 5px; height: 5px; left: 30%; bottom: 20%; animation-duration: 6.9s; animation-delay: 3.2s; }
+
+@keyframes emberRise {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(-160px) translateX(25px) scale(1.15);
+    opacity: 0.9;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-340px) translateX(-20px) scale(0.6);
+    opacity: 0;
+  }
+}
+
+
+
+/* Soft dark vignette at bottom of hero section */
 .hero-section::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 160px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+  height: 100px;
+  background: linear-gradient(180deg, rgba(8, 9, 13, 0) 0%, rgba(8, 9, 13, 0.7) 55%, #08090d 100%);
   pointer-events: none;
   z-index: 3;
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 1fr 1.05fr;
+  grid-template-columns: minmax(320px, 640px) 1fr;
   align-items: center;
   gap: clamp(2rem, 5vw, 4.5rem);
   position: relative;
@@ -502,13 +597,15 @@ a {
 .hero-content {
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 1.5rem;
   max-width: 580px;
   position: relative;
   z-index: 6;
   background: transparent;
   padding: 0;
   margin-left: 0;
+  will-change: transform, opacity;
+  transition: transform 0.1s linear;
 }
 
 .hero-title {
@@ -516,16 +613,32 @@ a {
   line-height: 1.1;
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: #0f1115;
-  text-shadow: 0 1px 16px rgba(255, 255, 255, 0.6);
+  color: #ffffff;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.9), 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Radiant Flame Gradient matching Image 2 */
+.text-gradient-flame {
+  background: linear-gradient(135deg, #ff4370 0%, #ff8533 46%, #ffcb3b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  font-weight: 850;
+  filter: drop-shadow(0 0 18px rgba(255, 133, 51, 0.55));
+}
+
+.hero-break-sm {
+  display: none;
 }
 
 .hero-description {
   font-size: clamp(1rem, 1.2vw, 1.15rem);
-  color: #1e293b;
+  color: rgba(255, 255, 255, 0.90);
   line-height: 1.65;
-  font-weight: 550;
-  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
 }
 
 .hero-cta-group {
@@ -533,9 +646,46 @@ a {
   align-items: center;
   gap: 1.2rem;
   flex-wrap: wrap;
-  margin-top: 0.4rem;
+  margin-top: 0.2rem;
   position: relative;
   z-index: 6;
+}
+
+/* Hero Culinary Quality Tags - Frosted Dark Glass Pills */
+.hero-dish-tags {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
+}
+
+.hero-tag-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.9rem;
+  background: rgba(18, 20, 28, 0.76);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  transition: all var(--transition-fast);
+}
+
+.hero-tag-item:hover {
+  background: rgba(28, 32, 45, 0.9);
+  border-color: rgba(255, 122, 0, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(255, 100, 20, 0.25);
+}
+
+.hero-tag-icon {
+  color: #ff7a00;
 }
 
 /* Hero Mini Card Slider (Bottom Left) */
@@ -648,6 +798,65 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Dynamic 2.5D Drop Shadow */
+.plate-shadow-dynamic {
+  position: absolute;
+  width: 82%;
+  height: 26%;
+  bottom: -4%;
+  left: 9%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0.1) 48%, transparent 72%);
+  border-radius: 50%;
+  filter: blur(12px);
+  pointer-events: none;
+  z-index: 1;
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+}
+
+/* Dynamic 2.5D Plate Dish Chip */
+.plate-dish-chip {
+  position: absolute;
+  bottom: 6%;
+  right: -4%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.42rem 0.82rem;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: var(--radius-full);
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  z-index: 8;
+  pointer-events: none;
+  animation: chipFloat 3.8s ease-in-out infinite alternate;
+}
+
+@keyframes chipFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-6px); }
+}
+
+.plate-chip-name {
+  font-size: 0.76rem;
+  font-weight: 750;
+  color: var(--text-main);
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.plate-chip-price {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #ff2a5f;
+  background: rgba(255, 42, 95, 0.08);
+  padding: 0.12rem 0.45rem;
+  border-radius: var(--radius-full);
 }
 
 .plate-image-wrapper {
@@ -867,12 +1076,14 @@ a {
   justify-content: space-between;
   gap: 1.8rem;
   overflow: hidden;
+  perspective: 900px;
+  transform-style: preserve-3d;
   transition: all var(--transition-smooth);
 }
 
 .promise-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
+  transform: translateY(-8px) rotateX(2deg) rotateY(-1deg) scale(1.015);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 0 25px rgba(255, 87, 34, 0.08);
 }
 
 .promise-card.card-fresh {
@@ -991,13 +1202,15 @@ a {
   align-items: center;
   gap: 1.2rem;
   position: relative;
+  perspective: 800px;
+  transform-style: preserve-3d;
   transition: all var(--transition-smooth);
 }
 
 .process-step-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-xl);
-  border-color: rgba(255, 42, 95, 0.2);
+  transform: translateY(-8px) rotateX(3deg) scale(1.02);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 0 20px rgba(255, 122, 0, 0.08);
+  border-color: rgba(255, 87, 34, 0.25);
 }
 
 .step-badge-number {
@@ -1104,13 +1317,15 @@ a {
   display: flex;
   flex-direction: column;
   position: relative;
+  perspective: 900px;
+  transform-style: preserve-3d;
   transition: all var(--transition-smooth);
 }
 
 .menu-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-xl);
-  border-color: rgba(226, 232, 240, 1);
+  transform: translateY(-8px) rotateX(3deg) scale(1.02);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 0 24px rgba(255, 42, 95, 0.08);
+  border-color: rgba(255, 122, 0, 0.25);
 }
 
 .menu-card-price-tag {
@@ -1872,102 +2087,165 @@ a {
     display: flex;
   }
 
-  /* Hero Section - Remove requested context paragraph & optimize for mobile */
+  /* Hero Section - Full-Screen Dedicated Mobile Landing View with Video & Context Only */
   .hero-section {
+    min-height: 100vh;
+    min-height: 100dvh;
     padding-top: calc(var(--nav-height) + 1.2rem);
-    padding-bottom: 4rem;
-    min-height: auto;
+    padding-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hero-grid {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .hero-content {
-    gap: 1.1rem;
+    gap: 1.15rem;
     text-align: center;
     align-items: center;
-    padding: 0 0.5rem;
+    padding: 0;
     max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
   }
 
   .hero-title {
-    font-size: clamp(2rem, 7.8vw, 2.5rem);
-    line-height: 1.15;
+    font-size: clamp(1.4rem, 5.4vw, 1.9rem);
+    line-height: 1.2;
     text-align: center;
+    word-break: normal;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    color: #ffffff;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.95);
   }
 
-  /* User requested: remove this context paragraph from mobile */
+  .hero-break-sm {
+    display: block;
+    height: 0;
+  }
+
   .hero-description {
-    display: none !important;
+    display: block !important;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    text-align: center;
+    max-width: 340px;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
   }
 
   .hero-cta-group {
     justify-content: center;
-    width: 100%;
-    margin-top: 0.2rem;
-  }
-
-  /* User requested: Remove Order Now from mobile hero & move View Our Menu upward */
-  #hero-order-btn {
-    display: none !important;
+    margin-top: 0.3rem;
   }
 
   #hero-view-menu-btn {
-    margin: 0 auto;
-    padding: 0.85rem 2rem;
-    font-size: 0.95rem;
+    margin: 0;
+    padding: 0.85rem 1.8rem;
+    font-size: 0.92rem;
     font-weight: 700;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 18px rgba(255, 42, 95, 0.45);
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
   }
 
-  /* Background Video Visibility on Mobile */
+  .hero-dish-tags {
+    justify-content: center;
+    margin-top: 0.3rem;
+    gap: 0.5rem;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-tag-item {
+    font-size: 0.74rem;
+    padding: 0.35rem 0.72rem;
+    background: rgba(18, 20, 28, 0.76);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Background Video Visibility on Mobile: Full-Screen Immersive */
   .hero-video-bg-container {
+    position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
     perspective: none;
   }
 
   .hero-video-perspective-wrapper {
     animation: none;
+    position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
   }
 
   .hero-video-bg {
-    opacity: 0.68;
-    filter: contrast(1.12) saturate(1.32) brightness(1.22);
-    object-position: center 30%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    filter: contrast(1.18) saturate(1.36) brightness(0.96);
+  }
+
+  .hero-video-bg.active-video {
+    opacity: 0.92;
+    visibility: visible;
+    z-index: 2;
+  }
+
+  .hero-video-bg.inactive-video {
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1;
   }
 
   .hero-video-gradient-overlay {
-    background: 
-      radial-gradient(circle at 50% 30%, rgba(255, 42, 95, 0.06) 0%, transparent 70%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.0) 25%, rgba(255, 255, 255, 0.55) 85%, #ffffff 100%);
-  }
-
-  /* Hero Dish Showcase & Floating Items - Centered with no clipping */
-  .hero-visual-stage {
-    min-height: 330px;
-    transform: none;
-    margin-top: 0.8rem;
+    position: absolute;
+    inset: 0;
     width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 50% 38%, rgba(255, 95, 0, 0.16) 0%, transparent 68%),
+      linear-gradient(180deg, 
+        rgba(8, 9, 13, 0.75) 0%, 
+        rgba(8, 9, 13, 0.40) 35%, 
+        rgba(8, 9, 13, 0.52) 70%, 
+        rgba(8, 9, 13, 0.88) 92%, 
+        #08090d 100%
+      );
   }
 
-  .plate-showcase-container {
-    max-width: 255px;
-    margin: 0 auto;
+  .hero-section::after {
+    height: 60px;
+    background: linear-gradient(180deg, rgba(8, 9, 13, 0) 0%, #08090d 100%);
   }
-
-  .stage-glow {
-    width: 290px;
-    height: 290px;
-  }
-
-  .ingredient-basil-1 { width: 30px; left: 8%; top: 8%; }
-  .ingredient-tomato-1 { width: 26px; left: 10%; bottom: 8%; }
-  .ingredient-mushroom-1 { width: 28px; right: 12%; top: 6%; }
-  .ingredient-tomato-2 { width: 22px; right: 6%; bottom: 20%; }
-  .ingredient-basil-2 { width: 26px; right: 12%; bottom: 6%; }
 
   /* Section Spacing & Headings */
   .section-wrapper {
